@@ -1,0 +1,48 @@
+﻿@page "/courses"
+
+@using LearninManagmentSystem.Data.Model
+@inject CourseManager cManager
+
+<h1>Courses List</h1>
+
+<p>This component fetching available courses.</p>
+
+@if (courses == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in courses)
+            {
+                <tr>
+                    <td>@course.Name</td>
+                    <td>@course.StartDate</td>
+                    <td>@course.EndDate</td>
+                    <td>@course.Category.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Course> courses;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        courses =  cManager.GetAllCourses();
+    }
+  
+}

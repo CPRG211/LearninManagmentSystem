@@ -1,0 +1,93 @@
+﻿@page "/students"
+
+@using LearninManagmentSystem.Data
+@using LearninManagmentSystem.Model;
+@inject StudentManager sManager
+
+<div>
+	<div class="row"><h3 style="text-align:center">Add Student</h3></div>
+	<div class="row  g-4">
+		<div class="col-4">
+			<input type="text" class="form-control" id="name" placeholder="Name" @onchange="NameChange">
+		</div>
+		<div class="col-4">
+			<input type="text" class="form-control" id="email" placeholder="Email" @onchange="EmailChange">
+		</div>
+		<div class="col-4 ">
+			<input type="datetime" class="form-control" id="birthDate" placeholder="BirthDate">
+		</div>
+
+		<div class="col-4 ">
+			<input type="text" class="form-control" id="telephoneNumber" placeholder="TelephneNumber" @onchange="TelephneNumberChange">
+		</div>
+
+		<div class="col-4">
+			<input type="text" class="form-control" id="identifier" placeholder="Identifier" @onchange="IdentifierChange">
+		</div>
+
+		<div class="col-4 ">
+			<button type="button" class="btn btn-outline-primary" @onclick="savechanges" style="width:14em">Add </button>
+		</div>
+
+		<div class="col-4">
+			@message
+		</div>
+	</div>
+</div>
+@code {
+
+	String Name;
+	String Email;
+	String Identifier;
+	String TelephneNumber;
+	DateTime BirthDate;
+
+	String message;
+
+
+	private void NameChange(ChangeEventArgs e)
+	{
+		Name = e.Value.ToString();
+	}
+
+	private void EmailChange(ChangeEventArgs e)
+	{
+		Email = e.Value.ToString();
+	}
+
+	private void IdentifierChange(ChangeEventArgs e)
+	{
+		Identifier = e.Value.ToString();
+	}
+
+	private void TelephneNumberChange(ChangeEventArgs e)
+	{
+		TelephneNumber = e.Value.ToString();
+	}
+
+	private void BirthDateChange(ChangeEventArgs e)
+	{
+		BirthDate =DateTime.Parse( e.Value.ToString());
+	}
+
+	private void savechanges()
+	{
+		Student student = new Student();
+		student.Name = Name;
+		student.TelephoneNumber = TelephneNumber;
+		student.DateOfBirth = BirthDate;
+		student.Identifier = Identifier;
+		student.Email = Email;
+
+		try
+		{
+			sManager.AddStudent(student);
+			message = "User created successfully.";
+		}catch(Exception ex)
+		{
+			message = ex.Message;
+
+		}
+	}
+
+}
